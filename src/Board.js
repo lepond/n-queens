@@ -127,16 +127,13 @@
         var currentRow = this.get(i);
           for( var j=0; j < allRows.length; j++) {
             if (i !== j) {
-              if (currentRow[colIndex] === this.get(j)[colIndex])
-                {
-                  return true;
-                }
+              if (currentRow[colIndex] === 1 && currentRow[colIndex] === this.get(j)[colIndex])
+                { return true; }
               }
             }
           }
-          */
+      */
       var colConflict = 0;
-      // this.rows will give all the rows
       for (var i = 0; i < this.rows().length; i++) {
         if (this.get(i)[colIndex]) {
           colConflict++;
@@ -144,7 +141,6 @@
         if (colConflict > 1) {
           return true;
         }
-        //for loop i to n this.get(i)[colIndex]
       }
       return false;
 
@@ -166,13 +162,35 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow, start) {
+      start = start || 0;
+       var colConflict = 0;
+       var colIndex = majorDiagonalColumnIndexAtFirstRow;
+        for (var i = 0; i < this.rows().length-1; i++) {
+          if ( this._isInBounds(this.get(i), colIndex) && this.get(i)[colIndex] ) {
+            colConflict++;
+            colIndex++;
+          }
+          if (colConflict > 1) {
+            return true;
+          }
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+        for (var i = 0; i < this.rows().length-1; i++) {
+          if ( this.hasAnyMajorDiagonalConflicts(i, 0) ) {
+            return true;
+          }
+        }
+        for (var i = 1; i < this.rows().length-1; i++) {
+          if (this.hasAnyMajorDiagonalConflicts(0, i)) {
+            return true;
+          }
+        }
+      return false;
     },
 
 
