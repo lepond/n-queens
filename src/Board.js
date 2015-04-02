@@ -79,12 +79,39 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      //debugger;
+      //find out if row contains more than one "1"
+
+      if ( _.indexOf(this.get(rowIndex), 1) !== _.lastIndexOf(this.get(rowIndex), 1) ) {
+        //if yes, return true
+        return true;
+      } else {
+        return false;
+      }
+ /*
+      var row = this.get(rowIndex);
+      var conflictCount = 0;
+      var found = false;
+      for(var i = 0; i < row.length; i++) {
+        if (row[i]) {
+          conflictCount++;
+        }
+        if (conflictCount > 1) {
+          found = true;
+        }
+      }
+      return      */
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      //iterate over all rows
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -94,12 +121,43 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      /*
+      var allRows = this.rows();
+      for (var i = 0; i < allRows.length; i++) {
+        var currentRow = this.get(i);
+          for( var j=0; j < allRows.length; j++) {
+            if (i !== j) {
+              if (currentRow[colIndex] === this.get(j)[colIndex])
+                {
+                  return true;
+                }
+              }
+            }
+          }
+          */
+      var colConflict = 0;
+      // this.rows will give all the rows
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.get(i)[colIndex]) {
+          colConflict++;
+        }
+        if (colConflict > 1) {
+          return true;
+        }
+        //for loop i to n this.get(i)[colIndex]
+      }
+      return false;
+
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
